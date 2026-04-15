@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Champion Celebration | We Grow Together</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap');
+  
+  :root {
+    --pink: #ff6b9d;
+    --purple: #c44569;
+    --gold: #f8b500;
+    --bg: #0f0c29;
+    --bg2: #302b63;
+  }
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(-45deg, var(--bg), var(--bg2), #24243e, var(--purple));
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+  
+  .container { width: 100%; max-width: 500px; padding: 20px; z-index: 10; }
+  
+  .page { display: none; animation: fadeIn 0.6s ease; }
+  .page.active { display: block; }
+  
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  
+  h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--gold); text-align: center; margin-bottom: 10px; }
+  h2 { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--pink); text-align: center; margin-bottom: 15px; }
+  
+  .card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  
+  .btn {
+    background: linear-gradient(45deg, var(--pink), var(--purple));
+    color: white; border: none; padding: 12px 25px;
+    border-radius: 50px; font-weight: 600; cursor: pointer;
+    transition: 0.3s; display: block; margin: 20px auto;
+  }
+  .btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255,107,157,0.4); }
+  
+  .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 20px; }
+  .progress { height: 100%; background: var(--gold); width: 10%; transition: 0.5s; border-radius: 10px; }
+  
+  .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+  .cell { height: 70px; background: rgba(255,255,255,0.1); border: 2px solid var(--pink); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; }
+  .cell.active { background: var(--gold) !important; }
+  
+  .input-box { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--pink); background: rgba(0,0,0,0.2); color: white; margin-bottom: 10px; }
+  
+  .letter-content { font-family: 'Dancing Script', cursive; font-size: 1.3rem; line-height: 1.6; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="progress-bar"><div class="progress" id="progress"></div></div>
+  <p style="text-align:center; margin-bottom:10px; font-size:0.8rem;">Level: <span id="levelNum">1</span>/10</p>
+
+  <div class="page active" id="page1">
+    <div class="card">
+      <h1>93% Champion! 🏆</h1>
+      <h2>Hey <span id="userName">Beautiful</span>...</h2>
+      <p style="text-align:center;">You didn't just pass boards. You crushed them. Ready to unlock your reward?</p>
+      <button class="btn" onclick="startFlow()">Start Challenge →</button>
+    </div>
+  </div>
+
+  <div class="page" id="page2">
+    <div class="card">
+      <h2>Level 1: Focus</h2>
+      <p style="text-align:center; margin-bottom:10px;">Watch the pattern and repeat it!</p>
+      <div class="game-grid" id="memoryGrid">
+        <div class="cell" onclick="handleMemoryClick(0)" id="m0"></div>
+        <div class="cell" onclick="handleMemoryClick(1)" id="m1"></div>
+        <div class="cell" onclick="handleMemoryClick(2)" id="m2"></div>
+      </div>
+      <button class="btn" id="memStartBtn" onclick="playSequence()">Watch Pattern</button>
+    </div>
+  </div>
+
+  <div class="page" id="page3">
+    <div class="card">
+      <h2>Level 2: Strategy</h2>
+      <p style="text-align:center; margin-bottom:10px;">Win or Draw against me (O) to pass!</p>
+      <div class="game-grid" id="ticGrid">
+        <div class="cell" onclick="ticMove(0)" id="t0"></div>
+        <div class="cell" onclick="ticMove(1)" id="t1"></div>
+        <div class="cell" onclick="ticMove(2)" id="t2"></div>
+        <div class="cell" onclick="ticMove(3)" id="t3"></div>
+        <div class="cell" onclick="ticMove(4)" id="t4"></div>
+        <div class="cell" onclick="ticMove(5)" id="t5"></div>
+        <div class="cell" onclick="ticMove(6)" id="t6"></div>
+        <div class="cell" onclick="ticMove(7)" id="t7"></div>
+        <div class="cell" onclick="ticMove(8)" id="t8"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page4">
+    <div class="card">
+      <h2>Level 3: Logic</h2>
+      <p style="text-align:center;">What is 93 + 7?</p>
+      <input type="number" id="mathInput" class="input-box" placeholder="Your answer...">
+      <button class="btn" onclick="checkMath()">Verify</button>
+    </div>
+  </div>
+
+  <div class="page" id="page10">
+    <div class="card">
+      <h1>My Champion 💌</h1>
+      <div class="letter-content">
+        <p>To my superstar,</p><br>
+        <p>Boards were just one exam. If this is how you handle pressure, I know we can handle anything together.</p><br>
+        <p>You didn't let stress break you, and you didn't let me distract you. You balanced it all perfectly.</p><br>
+        <p><strong>Good relationships don't break people. They build them.</strong></p><br>
+        <p>Proud of you, always.</p>
+      </div>
+      <button class="btn" onclick="location.reload()">Replay ❤️</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let userName = prompt("Enter her name to personalize:") || "Beautiful";
+  document.getElementById('userName').innerText = userName;
+
+  function showPage(num) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    let target = document.getElementById(`page${num}`) || document.getElementById('page10');
+    target.classList.add('active');
+    document.getElementById('progress').style.width = (num * 10) + "%";
+    document.getElementById('levelNum').innerText = num;
+  }
+
+  function startFlow() { showPage(2); }
+
+  // Memory Game Logic
+  let sequence = [0, 2, 1];
+  let userSeq = [];
+  function playSequence() {
+    let i = 0;
+    const interval = setInterval(() => {
+      let cell = document.getElementById(`m${sequence[i]}`);
+      cell.classList.add('active');
+      setTimeout(() => cell.classList.remove('active'), 500);
+      i++;
+      if (i >= sequence.length) clearInterval(interval);
+    }, 800);
+  }
+  function handleMemoryClick(id) {
+    userSeq.push(id);
+    if (userSeq.length === sequence.length) {
+      if (userSeq.every((v, i) => v === sequence[i])) showPage(3);
+      else { alert("Try again!"); userSeq = []; }
+    }
+  }
+
+  // Tic Tac Toe Logic
+  let board = ["","","","","","","","",""];
+  function ticMove(id) {
+    if (board[id] === "") {
+      board[id] = "X";
+      document.getElementById(`t${id}`).innerText = "X";
+      // Simple AI move
+      let empty = board.findIndex(b => b === "");
+      if (empty !== -1) {
+        board[empty] = "O";
+        document.getElementById(`t${empty}`).innerText = "O";
+      }
+      setTimeout(() => showPage(4), 1000); // Auto-advance for simplicity
+    }
+  }
+
+  // Math Logic
+  function checkMath() {
+    if (document.getElementById('mathInput').value == 100) showPage(10);
+    else alert("Check the calculation again!");
+  }
+</script>
+
+</body>
+  </html>
+  
