@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>93% Champion | Lachuu</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Dancing+Script:wght@700&display=swap');
+  
+  /* FORCE CENTER & PREVENT SIDE-SCROLL */
+  html, body { 
+    margin: 0; padding: 0; width: 100%; height: 100%; 
+    overflow: hidden; background: #000; 
+  }
+  
+  body {
+    display: flex; justify-content: center; align-items: center;
+    font-family: 'Poppins', sans-serif; color: #fff;
+  }
+
+  .bg-glow {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%);
+    z-index: -1;
+  }
+
+  .container { width: 85%; max-width: 400px; z-index: 10; text-align: center; }
+
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn 0.5s ease; }
+  
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+
+  .card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 20px; padding: 30px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  h1 { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #f8b500; margin-bottom: 10px; }
+  p { font-size: 0.9rem; color: #ddd; margin-bottom: 20px; }
+
+  .btn {
+    background: #ff6b9d; color: #fff; border: none; padding: 15px;
+    border-radius: 10px; font-weight: 700; cursor: pointer; width: 100%;
+    text-transform: uppercase;
+  }
+
+  .input-box { 
+    width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ff6b9d; 
+    background: rgba(0,0,0,0.5); color: #fff; margin: 10px 0; text-align: center;
+  }
+
+  .letter-content { 
+    font-family: 'Dancing Script', cursive; font-size: 1.3rem; 
+    text-align: left; line-height: 1.5; max-height: 300px; overflow-y: auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="container">
+
+  <div class="page active" id="p1">
+    <div class="card">
+      <h1>Hey Lachuu!</h1>
+      <p>My 93% Champion. Boards were just the start. Ready for your letter?</p>
+      <button class="btn" onclick="nextPage(2)">Start Challenge</button>
+    </div>
+  </div>
+
+  <div class="page" id="p2">
+    <div class="card">
+      <h1>The Future</h1>
+      <p>What car brand am I going to buy?</p>
+      <input type="text" id="carInp" class="input-box" placeholder="Brand name...">
+      <button class="btn" onclick="checkCar()">Verify</button>
+    </div>
+  </div>
+
+  <div class="page" id="p3">
+    <div class="card">
+      <h1>The Passions</h1>
+      <p>My 3 interests? (G..., P..., C...)</p>
+      <input type="text" id="passInp" class="input-box" placeholder="Separate with commas">
+      <button class="btn" onclick="checkPass()">Unlock Letter</button>
+    </div>
+  </div>
+
+  <div class="page" id="p4">
+    <div class="card">
+      <h1>For Lachuu 💌</h1>
+      <div class="letter-content">
+        <p>My Beautiful Superstar Lachuu,</p><br>
+        <p>Boards were a test of memory, but this was a test of us. You crushed both.</p><br>
+        <p>I’m proud of your strength. Whether I'm building JARVIS or we're building our future, one thing is sure: **We grow together.**</p><br>
+        <p>You are my 93% Champion. Forever standing by your side.</p>
+      </div>
+      <button class="btn" style="margin-top:20px" onclick="location.reload()">Replay ❤️</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function nextPage(n) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('p'+n).classList.add('active');
+  }
+  function checkCar() {
+    if(document.getElementById('carInp').value.toLowerCase().includes("bmw")) nextPage(3);
+    else alert("Incorrect! Think German luxury.");
+  }
+  function checkPass() {
+    let v = document.getElementById('passInp').value.toLowerCase();
+    if(v.includes("gaming") && v.includes("psychology") && v.includes("coding")) nextPage(4);
+    else alert("Gaming, Psychology, Coding!");
+  }
+</script>
+</body>
+</html>
