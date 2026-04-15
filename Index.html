@@ -3,37 +3,272 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Champion Celebration | We Grow Together</title>
+<title>93% Champion | The Ultimate Test</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&family=JetBrains+Mono:wght@400;700&display=swap');
   
   :root {
     --pink: #ff6b9d;
     --purple: #c44569;
     --gold: #f8b500;
-    --bg: #0f0c29;
-    --bg2: #302b63;
+    --bg: #050505;
+    --glass: rgba(255, 255, 255, 0.05);
   }
   
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
   
   body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(-45deg, var(--bg), var(--bg2), #24243e, var(--purple));
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
+    background: #000;
     color: #fff;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-x: hidden;
   }
+
+  /* Background Animation */
+  .bg-glow {
+    position: fixed;
+    top: 50%; left: 50%;
+    width: 100vw; height: 100vh;
+    background: radial-gradient(circle at center, #302b63 0%, #0f0c29 50%, #000 100%);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    opacity: 0.6;
+  }
+
+  .container { width: 100%; max-width: 600px; padding: 25px; }
+
+  .page { display: none; animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .page.active { display: block; }
   
-  @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+  @keyframes slideUp { 
+    from { opacity: 0; transform: translateY(50px) scale(0.9); filter: blur(10px); } 
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } 
+  }
+
+  .card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  h1 { font-family: 'Dancing Script', cursive; font-size: 4rem; color: var(--gold); margin-bottom: 10px; text-shadow: 0 0 20px rgba(248, 181, 0, 0.3); }
+  h2 { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; color: var(--pink); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px; }
+
+  .btn {
+    background: #fff;
+    color: #000; border: none; padding: 18px 35px;
+    border-radius: 12px; font-weight: 700; font-size: 1rem;
+    cursor: pointer; transition: 0.4s; width: 100%;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-top: 20px;
+  }
+  .btn:hover { background: var(--pink); color: #fff; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(255, 107, 157, 0.3); }
+
+  .progress-container { margin-bottom: 30px; }
+  .progress-text { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 5px; display: block; }
+  .progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+  .progress { height: 100%; background: var(--gold); width: 0%; transition: 1s ease; box-shadow: 0 0 15px var(--gold); }
+
+  .input-box { 
+    width: 100%; padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); 
+    background: rgba(0,0,0,0.4); color: #fff; margin: 15px 0; font-size: 1rem; text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .choice-btn {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: #fff; padding: 15px; margin: 10px 0; width: 100%; border-radius: 12px;
+    text-align: left; transition: 0.3s; cursor: pointer;
+  }
+  .choice-btn:hover { background: rgba(255, 107, 157, 0.1); border-color: var(--pink); }
+
+  /* Letter Styling */
+  .letter-wrap { max-height: 400px; overflow-y: auto; text-align: left; padding-right: 15px; }
+  .letter-wrap::-webkit-scrollbar { width: 4px; }
+  .letter-wrap::-webkit-scrollbar-thumb { background: var(--gold); }
+  .letter-content { font-family: 'Dancing Script', cursive; font-size: 1.6rem; line-height: 1.8; color: #f0f0f0; }
   
-  .container { width: 100%; max-width: 500px; padding: 20px; z-index: 10; }
-  
-  .page { display: none; animation: fadeIn 0.6s ease; }
+  .glitch { animation: glitch 1s linear infinite; }
+  @keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<div class="container">
+  <div class="progress-container">
+    <span class="progress-text">SYNCHRONIZING SYSTEM... <span id="percent">0</span>%</span>
+    <div class="progress-bar"><div class="progress" id="progress"></div></div>
+  </div>
+
+  <div class="page active" id="p1">
+    <div class="card">
+      <h1 class="glitch">93%</h1>
+      <h2>Level 01: Initiation</h2>
+      <p style="margin-bottom: 20px; color: rgba(255,255,255,0.7);">To my board exam superstar. This isn't a game. It's a journey through us. Prove you're the champion I know you are.</p>
+      <button class="btn" onclick="nextPage(2)">Enter The System</button>
+    </div>
+  </div>
+
+  <div class="page" id="p2">
+    <div class="card">
+      <h2>Level 02: Vision</h2>
+      <p>I build systems, but I dream of roads. What is the one car I will work until I own?</p>
+      <input type="text" id="carInp" class="input-box" placeholder="CAR BRAND...">
+      <button class="btn" onclick="checkCar()">Validate</button>
+    </div>
+  </div>
+
+  <div class="page" id="p3">
+    <div class="card">
+      <h2>Level 03: Passion</h2>
+      <p>My mind is split into three worlds. Name them correctly (Comma separated).</p>
+      <input type="text" id="passInp" class="input-box" placeholder="G..., P..., C...">
+      <button class="btn" onclick="checkPass()">Access Memory</button>
+    </div>
+  </div>
+
+  <div class="page" id="p4">
+    <div class="card">
+      <h2>Level 04: Signature</h2>
+      <p>Every "JARVIS" has a theme. What is my soul's favorite color?</p>
+      <input type="text" id="colInp" class="input-box" placeholder="ENTER COLOR...">
+      <button class="btn" onclick="checkCol()">Check</button>
+    </div>
+  </div>
+
+  <div class="page" id="p5">
+    <div class="card">
+      <h2>Level 05: Processing</h2>
+      <p>You got 93% in boards. Prove your speed under pressure. Solve in 5 seconds:</p>
+      <h3 style="font-size: 2rem; margin: 10px 0;">93 + 7 = ?</h3>
+      <input type="number" id="mathInp" class="input-box">
+      <button class="btn" onclick="checkMath()">Verify</button>
+    </div>
+  </div>
+
+  <div class="page" id="p6">
+    <div class="card">
+      <h2>Level 06: Logic Test</h2>
+      <p>I'm deep in my coding zone, I haven't eaten or texted in 5 hours because a bug is driving me crazy. You see me online but I'm not replying. What do you do?</p>
+      <button class="choice-btn" onclick="nextPage(7)">A) Get angry because you're being ignored.</button>
+      <button class="choice-btn" onclick="nextPage(7)">B) Spam me until I look at the phone.</button>
+      <button class="choice-btn" onclick="nextPage(7)">C) Send a "I'm here for you" text and let me finish my work.</button>
+    </div>
+  </div>
+
+  <div class="page" id="p7">
+    <div class="card">
+      <h2>Level 07: Empathy</h2>
+      <p>I failed a major project and I'm being silent. Based on my interest in psychology, what do I need most?</p>
+      <button class="choice-btn" onclick="nextPage(8)">A) Space to process the failure alone.</button>
+      <button class="choice-btn" onclick="nextPage(8)">B) You to distract me with a movie.</button>
+      <button class="choice-btn" onclick="nextPage(8)">C) To talk through the 'why' and fix it.</button>
+    </div>
+  </div>
+
+  <div class="page" id="p8">
+    <div class="card">
+      <h2>Level 08: Connection</h2>
+      <p>Unscramble our core principle:</p>
+      <h3 style="letter-spacing: 5px; margin: 15px 0;">W T O R G H</h3>
+      <input type="text" id="scrInp" class="input-box">
+      <button class="btn" onclick="checkScr()">Unscramble</button>
+    </div>
+  </div>
+
+  <div class="page" id="p9">
+    <div class="card">
+      <h2>Level 09: Final Lock</h2>
+      <p>If the whole world is on one side, and I'm on the other—where are you standing?</p>
+      <input type="text" id="finalInp" class="input-box" placeholder="Your answer...">
+      <button class="btn" onclick="nextPage(10)">Unlock My Heart</button>
+    </div>
+  </div>
+
+  <div class="page" id="p10">
+    <div class="card" style="text-align: left;">
+      <h1 style="text-align:center;">To My Champion 💌</h1>
+      <div class="letter-wrap">
+        <div class="letter-content">
+          <p>My Beautiful Superstar,</p><br>
+          <p>You did it. You officially passed the hardest test I could build, but you passed the real test a long time ago. </p><br>
+          <p>Seeing you get that 93% wasn't just about the marks for me. It was about seeing the girl I love show the world what she’s made of. You handled the pressure, the late nights, and the stress like a true champion. </p><br>
+          <p>They say relationships are distractions, especially during boards. But we proved them wrong. You didn't let stress break us, and I didn't let my hobbies take me away from supporting you. </p><br>
+          <p><strong>"Good relationships don't break people. They build them."</strong></p><br>
+          <p>I am so proud to be the guy standing next to you. Whether it’s me coding my JARVIS or you crushing your next goal, we are doing this together. No matter how hard the 'Math' of life gets, we will always equal 100% when we are together.</p><br>
+          <p>This is just the beginning of our growth. I love you, my champion. Always.</p><br>
+          <p style="text-align: center; color: var(--gold);">Forever yours.</p>
+        </div>
+      </div>
+      <button class="btn" style="margin-top:20px;" onclick="location.reload()">Start Over ❤️</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let cur = 1;
+  const total = 10;
+
+  function nextPage(n) {
+    document.getElementById('p'+cur).classList.remove('active');
+    cur = n;
+    const target = document.getElementById('p'+cur);
+    if(target) target.classList.add('active');
+    
+    // Update progress
+    let p = Math.floor(((cur-1) / (total-1)) * 100);
+    document.getElementById('progress').style.width = p + "%";
+    document.getElementById('percent').innerText = p;
+  }
+
+  function checkCar() {
+    if(document.getElementById('carInp').value.toLowerCase().includes("bmw")) nextPage(3);
+    else alert("Incorrect. Hint: German, fast, luxury.");
+  }
+
+  function checkPass() {
+    let v = document.getElementById('passInp').value.toLowerCase();
+    if(v.includes("gaming") && v.includes("psychology") && v.includes("coding")) nextPage(4);
+    else alert("You missed my passions. (Gaming, Psychology, Coding)");
+  }
+
+  function checkCol() {
+    if(document.getElementById('colInp').value.toLowerCase().includes("black")) nextPage(5);
+    else alert("Think darker. The most aesthetic color.");
+  }
+
+  function checkMath() {
+    if(document.getElementById('mathInp').value == 100) nextPage(6);
+    else alert("You're a 93% champion! You can do this math!");
+  }
+
+  function checkScr() {
+    if(document.getElementById('scrInp').value.toLowerCase() === "growth") nextPage(9);
+    else alert("Keep trying. It's what we do together.");
+  }
+</script>
+
+</body>
+</html>
   .page.active { display: block; }
   
   @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
