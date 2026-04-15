@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>93% Champion | The Ultimate Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>93% Champion | Lachuu's Test</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&family=JetBrains+Mono:wght@400;700&display=swap');
   
@@ -12,7 +12,7 @@
     --purple: #c44569;
     --gold: #f8b500;
     --bg: #050505;
-    --glass: rgba(255, 255, 255, 0.05);
+    --glass: rgba(255, 255, 255, 0.08);
   }
   
   * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
@@ -21,10 +21,223 @@
     font-family: 'Poppins', sans-serif;
     background: #000;
     color: #fff;
-    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden; /* Fixes the side-scroll issue */
+    position: fixed;
+  }
+
+  .bg-glow {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at center, #1a1a2e 0%, #0f0c29 40%, #000 100%);
+    z-index: -1;
+  }
+
+  .container { width: 90%; max-width: 500px; z-index: 10; }
+
+  .page { display: none; animation: slideUp 0.6s ease-out; }
+  .page.active { display: block; }
+  
+  @keyframes slideUp { 
+    from { opacity: 0; transform: translateY(30px); } 
+    to { opacity: 1; transform: translateY(0); } 
+  }
+
+  .card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 35px 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    text-align: center;
+  }
+
+  h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--gold); margin-bottom: 5px; }
+  h2 { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--pink); letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; }
+
+  .btn {
+    background: #fff; color: #000; border: none; padding: 16px;
+    border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; width: 100%;
+    text-transform: uppercase; margin-top: 15px; font-size: 0.9rem;
+  }
+  .btn:hover { background: var(--pink); color: #fff; transform: translateY(-3px); }
+
+  .progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 20px; }
+  .progress { height: 100%; background: var(--gold); width: 10%; transition: 0.8s ease; box-shadow: 0 0 10px var(--gold); }
+
+  .input-box { 
+    width: 100%; padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); 
+    background: rgba(0,0,0,0.5); color: #fff; margin: 10px 0; text-align: center; font-size: 1rem;
+  }
+
+  .choice-btn {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: #fff; padding: 14px; margin: 6px 0; width: 100%; border-radius: 10px;
+    text-align: left; transition: 0.2s; cursor: pointer; font-size: 0.85rem;
+  }
+  .choice-btn:hover { border-color: var(--pink); background: rgba(255,107,157,0.1); }
+
+  .letter-wrap { max-height: 380px; overflow-y: auto; text-align: left; padding: 5px; }
+  .letter-wrap::-webkit-scrollbar { width: 2px; }
+  .letter-wrap::-webkit-scrollbar-thumb { background: var(--gold); }
+  .letter-content { font-family: 'Dancing Script', cursive; font-size: 1.4rem; line-height: 1.6; color: #f0f0f0; }
+  
+  strong { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<div class="container">
+  <div class="progress-bar"><div class="progress" id="progress"></div></div>
+
+  <div class="page active" id="p1">
+    <div class="card">
+      <h1>Hey Lachuu!</h1>
+      <h2>93% Champion Challenge</h2>
+      <p style="font-size: 0.9rem; color: #ccc;">Only my superstar can pass this. Ready to unlock your reward?</p>
+      <button class="btn" onclick="nextPage(2)">Enter System</button>
+    </div>
+  </div>
+
+  <div class="page" id="p2">
+    <div class="card">
+      <h2>Level 02: Vision</h2>
+      <p>Which specific car brand am I going to buy in the future?</p>
+      <input type="text" id="carInp" class="input-box" placeholder="Answer...">
+      <button class="btn" onclick="checkCar()">Validate</button>
+    </div>
+  </div>
+
+  <div class="page" id="p3">
+    <div class="card">
+      <h2>Level 03: The Core</h2>
+      <p>Name my 3 main interests (separate with commas).</p>
+      <input type="text" id="passInp" class="input-box" placeholder="G..., P..., C...">
+      <button class="btn" onclick="checkPass()">Access</button>
+    </div>
+  </div>
+
+  <div class="page" id="p4">
+    <div class="card">
+      <h2>Level 04: Signature</h2>
+      <p>What is my favorite color?</p>
+      <input type="text" id="colInp" class="input-box" placeholder="Color...">
+      <button class="btn" onclick="checkCol()">Check</button>
+    </div>
+  </div>
+
+  <div class="page" id="p5">
+    <div class="card">
+      <h2>Level 05: Processing</h2>
+      <p>Solve this quick: 93 + 7 = ?</p>
+      <input type="number" id="mathInp" class="input-box">
+      <button class="btn" onclick="checkMath()">Verify</button>
+    </div>
+  </div>
+
+  <div class="page" id="p6">
+    <div class="card">
+      <h2>Level 06: Logic</h2>
+      <p>I'm deep in my coding zone and haven't replied in hours. What do you do?</p>
+      <button class="choice-btn" onclick="nextPage(7)">A) Get angry because I'm ignoring you.</button>
+      <button class="choice-btn" onclick="nextPage(7)">B) Send an 'I'm here' text and let me finish.</button>
+      <button class="choice-btn" onclick="nextPage(7)">C) Spam me until I reply.</button>
+    </div>
+  </div>
+
+  <div class="page" id="p7">
+    <div class="card">
+      <h2>Level 07: Empathy</h2>
+      <p>If I'm stressed about a coding bug, what helps me most?</p>
+      <button class="choice-btn" onclick="nextPage(8)">A) Space to fix it myself.</button>
+      <button class="choice-btn" onclick="nextPage(8)">B) Talking through the logic with you.</button>
+      <button class="choice-btn" onclick="nextPage(8)">C) Distracting me with something else.</button>
+    </div>
+  </div>
+
+  <div class="page" id="p8">
+    <div class="card">
+      <h2>Level 08: Growth</h2>
+      <p>Unscramble: <strong>W T O R G H</strong></p>
+      <input type="text" id="scrInp" class="input-box">
+      <button class="btn" onclick="checkScr()">Unlock</button>
+    </div>
+  </div>
+
+  <div class="page" id="p9">
+    <div class="card">
+      <h2>Level 09: Loyalty</h2>
+      <p>If the world is on one side, and I'm on the other—where are you?</p>
+      <input type="text" id="finalInp" class="input-box" placeholder="Your answer...">
+      <button class="btn" onclick="nextPage(10)">Unlock My Heart</button>
+    </div>
+  </div>
+
+  <div class="page" id="p10">
+    <div class="card">
+      <h1 style="font-size: 2.2rem;">For My Champion 💌</h1>
+      <div class="letter-wrap">
+        <div class="letter-content">
+          <p>My Beautiful Superstar Lachuu,</p><br>
+          <p>Boards were just a test of memory, but this was a test of us. You crushed both.</p><br>
+          <p>Seeing you get that result wasn't just a win for you; it was a win for everything we’re building. People say that having a girlfriend or boyfriend during exams is a distraction, but they clearly haven't seen us. You stayed focused, you balanced the stress, and you didn't let anything stop you from being the champion you are today.</p><br>
+          <p><strong>'Good relationships don't break people. They build them.'</strong></p><br>
+          <p>I’m not just proud of your marks. I’m proud of your strength. I’m proud of the way you handle the 'bugs' in life just like I handle them in my code. Whether I'm building JARVIS or we're building our future, I know one thing for sure: <strong>We grow together.</strong></p><br>
+          <p>You are my 93% Champion, today and forever.</p><br>
+          <p>Forever standing by your side.</p>
+        </div>
+      </div>
+      <button class="btn" onclick="location.reload()">Replay ❤️</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let cur = 1;
+  function nextPage(n) {
+    document.getElementById('p'+cur).classList.remove('active');
+    cur = n;
+    document.getElementById('p'+cur).classList.add('active');
+    document.getElementById('progress').style.width = (cur * 10) + "%";
+  }
+
+  function checkCar() {
+    if(document.getElementById('carInp').value.toLowerCase().includes("bmw")) nextPage(3);
+    else alert("Incorrect! Think German luxury.");
+  }
+
+  function checkPass() {
+    let v = document.getElementById('passInp').value.toLowerCase();
+    if(v.includes("gaming") && v.includes("psychology") && v.includes("coding")) nextPage(4);
+    else alert("Missed something! Gaming, Psychology, Coding.");
+  }
+
+  function checkCol() {
+    if(document.getElementById('colInp').value.toLowerCase().includes("black")) nextPage(5);
+    else alert("Nope! The most aesthetic color.");
+  }
+
+  function checkMath() {
+    if(document.getElementById('mathInp').value == 100) nextPage(6);
+    else alert("93+7? Easy processing!");
+  }
+
+  function checkScr() {
+    if(document.getElementById('scrInp').value.toLowerCase() === "growth") nextPage(9);
+    else alert("Not quite. Focus on our bond!");
+  }
+</script>
+
+</body>
+</html>
     overflow-x: hidden;
   }
 
